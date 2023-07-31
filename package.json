@@ -1,0 +1,78 @@
+{
+  "name": "sgagri-client",
+  "description": "FrontEnd do SGAgri",
+  "version": "0.1.0",
+  "license": "MIT",
+  "private": true,
+  "homepage": "<PROJECT_URL>",
+  "main": "src/main.tsx",
+  "contributors": [
+    {
+      "name": "John Doe",
+      "email": "johndoe2000@email.com",
+      "url": "https://www.linkedin.com/in/johndoe/"
+    },
+    {
+      "name": "Jake Weary",
+      "email": "jakewary1984@email.com",
+      "url": "https://www.linkedin.com/in/jakewary/"
+    },
+    {
+      "name": "Jason Response",
+      "email": "jasonresponse1996@email.com",
+      "url": "https://www.linkedin.com/in/jasonresponse/"
+    }
+  ],
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx} vite.config.ts",
+    "lint": "npm run eslint & npm run prettier & npm run stylelint",
+    "prebuild": "npm run lint",
+    "prettier": "prettier --write src/**/*.{js,jsx,ts,tsx} vite.config.ts",
+    "start": "vite preview",
+    "stylelint": "stylelint --fix src/**/*.scss"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.1",
+    "@mui/material": "^5.14.2",
+    "axios": "^1.4.0",
+    "immer": "^10.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.2",
+    "react-router-dom": "^6.14.2",
+    "zustand": "^4.3.9"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss-scss": "^4.0.6",
+    "prettier": "^3.0.0",
+    "sass": "^1.64.1",
+    "stylelint": "^15.10.2",
+    "stylelint-config-standard": "^34.0.0",
+    "typescript": "^5.0.2",
+    "typescript-plugin-css-modules": "^5.0.1",
+    "vite": "^4.4.5",
+    "vite-tsconfig-paths": "^4.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rehagro/sgagri-client"
+  },
+  "keywords": [
+    "react",
+    "rehagro",
+    "sgagri",
+    "typescript"
+  ]
+}

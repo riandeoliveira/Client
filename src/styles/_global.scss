@@ -1,0 +1,23 @@
+@use "./index" as *;
+
+* {
+  border: 0;
+  box-sizing: border-box;
+  font-family: $group-font !important;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+body {
+  background-color: $white;
+}
+
+.css-l4u8b9-MuiInputBase-root-MuiInput-root::after {
+  border-bottom: 2px solid $green !important;
+}
+
+.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: $green !important;
+}

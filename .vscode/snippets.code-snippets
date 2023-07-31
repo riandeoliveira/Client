@@ -1,0 +1,27 @@
+{
+  "Arrow Function Component": {
+    "scope": "javascript,javascriptreact,typescript,typescriptreact",
+    "prefix": "afc",
+    "body": [
+      "import styles from \"./styles.module.scss\";",
+      "",
+      "export const $1 = (): JSX.Element => {",
+      "  return (",
+      "    <div className={styles.box}>",
+      "      <div></div>",
+      "    </div>",
+      "  );",
+      "};",
+      ""
+    ],
+    "description": "Creates an arrow function component"
+  },
+  "SASS Module": {
+    "scope": "javascript,javascriptreact,typescript,typescriptreact",
+    "prefix": "cls",
+    "body": [
+      "className={styles.$1}"
+    ],
+    "description": ""
+  }
+}

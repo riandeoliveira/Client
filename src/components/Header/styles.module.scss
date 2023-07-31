@@ -1,0 +1,19 @@
+@use "../../styles" as *;
+
+.header {
+  border-bottom: 1px solid $green;
+  display: flex;
+  gap: 12px;
+  height: 80px;
+  padding: 12px;
+}
+
+.logo {
+  object-fit: contain;
+}
+
+.header_box {
+  display: flex;
+  gap: 24px;
+  width: 600px;
+}

@@ -1,0 +1,11 @@
+@font-face {
+  font-family: MyriadPro;
+  font-weight: 500;
+  src: url("fonts/MyriadPro-Regular.otf") format("opentype");
+}
+
+$primary-font: "MyriadPro";
+$secondary-font: "Roboto";
+$default-font: sans-serif;
+
+$group-font: $primary-font, $secondary-font, $default-font;

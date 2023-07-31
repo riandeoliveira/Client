@@ -1,0 +1,23 @@
+@use "../../../styles" as *;
+
+.main {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.page_box {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  width: 1200px;
+}
+
+.page_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  color: $green;
+}
