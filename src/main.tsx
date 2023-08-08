@@ -9,17 +9,16 @@ const theme = createTheme({
   components: {
     MuiButton: {
       defaultProps: {
-        style: {
-          backgroundColor: "#00635a",
-        },
+        variant: "contained",
       },
     },
-    MuiCheckbox: {
-      defaultProps: {
-        style: {
-          color: "#00635a",
-        },
-      },
+  },
+  palette: {
+    primary: {
+      main: "#00635a",
+    },
+    secondary: {
+      main: "#424242",
     },
   },
 });

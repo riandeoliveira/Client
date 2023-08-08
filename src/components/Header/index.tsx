@@ -1,79 +1,97 @@
-import { Form } from "components/Form";
-import { FazendaService } from "services/fazenda-service";
-import { useMenuOptionsStore } from "store/menu-options-store";
+import { Autocomplete, Checkbox, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import type { AtividadeResponse } from "services/atividade-service";
+import type { FetchAllResponse } from "services/cliente-service";
+import { ClienteService } from "services/cliente-service";
+import { SafraService, type FetchByFazendaIdResponse } from "services/safra-service";
+import { useMenuOptionsStore } from "store/menu-options.store";
 import styles from "./styles.module.scss";
-
-const options = [
-  {
-    label: "teste",
-    value: "2n36rv78dffgdfg236r823r2hfrui",
-  },
-  {
-    label: "asd",
-    value: "2n36rvdfgdfgdfgdfg78236r823r2hfrui",
-  },
-  {
-    label: "435ge",
-    value: "2n36rv78236rdfgdfg823r2hfrui",
-  },
-  {
-    label: "fgh",
-    value: "2n36rvdfgdfg78236r823r2hfrui",
-  },
-  {
-    label: "dfgdfg",
-    value: "dfgdfgasdadfgsdasdasdasdasdasd",
-  },
-];
 
 export const Header = (): JSX.Element => {
   const menuOptionsStore = useMenuOptionsStore();
 
+  const [clientes, setClientes] = useState<FetchAllResponse[]>([]);
+  const [safras, setSafras] = useState<FetchByFazendaIdResponse[]>([]);
+  const [atividades, setAtividades] = useState<AtividadeResponse[] | null>([]);
+
+  useEffect(() => {
+    const sendRequest = async () => {
+      const clientesData = await ClienteService.fetchAll();
+      const safrasData = await SafraService.fetchByFazendaId(
+        "41559565-65a8-4170-aba2-ce724a2089be",
+      );
+      // const atividadesData = await AtividadeService.fetchBySafraId(
+      //   "cd4c267c-38d3-4c0e-b8a0-e1c7631e0f93",
+      // );
+
+      setClientes(clientesData);
+      setSafras(safrasData);
+      // setAtividades(atividadesData);
+    };
+
+    sendRequest();
+  }, []);
+
   return (
-    <>
-      <header className={styles.header}>
-        <img
-          src="/sgagri-logo.png"
-          alt="Logo do SGAgri"
-          width={168}
-          height={56}
-          className={styles.logo}
-          onClick={async () => {
-            await FazendaService.findAll();
+    <header className={styles.header}>
+      <img
+        src="/sgagri-logo.png"
+        alt="Logo do SGAgri"
+        width={168}
+        height={56}
+        className={styles.logo}
+      />
+      <div className={styles.header_box}>
+        <Autocomplete
+          options={clientes.map((cliente) => ({ label: cliente.nomeRazao, value: cliente.id }))}
+          size="small"
+          value={menuOptionsStore.state.clientes}
+          getOptionLabel={(option) => option.label}
+          renderOption={(props, option): JSX.Element => <li {...props}>{option.label}</li>}
+          onChange={(_, values) => {
+            menuOptionsStore.action.setClientes(values);
+          }}
+          style={{ width: 500 }}
+          renderInput={(params) => <TextField {...params} label="Clientes" variant="standard" />}
+        />
+        <Autocomplete
+          multiple
+          disableCloseOnSelect
+          size="small"
+          limitTags={2}
+          options={safras}
+          value={menuOptionsStore.state.safras || undefined}
+          getOptionLabel={(option) => option.label}
+          renderOption={(props, option, { selected }): JSX.Element => (
+            <li {...props}>
+              <Checkbox checked={selected} />
+
+              {option.label}
+            </li>
+          )}
+          onChange={(_, values) => {
+            menuOptionsStore.action.setSafras(values);
+          }}
+          style={{ width: 500 }}
+          renderInput={(params) => <TextField {...params} label="Safras" variant="standard" />}
+        />
+        {/* <Form.MultipleSelect
+          label="Safras"
+          options={safras}
+          value={menuOptionsStore.state.safras}
+          onSelect={(_, values) => {
+            menuOptionsStore.action.setSafras(values);
           }}
         />
-        <div className={styles.header_box}>
-          <Form.Select
-            label="Clientes"
-            options={options}
-            value={menuOptionsStore.values.clientes}
-            onSelect={(_, values) => {
-              menuOptionsStore.actions.setClientes(values);
-            }}
-          />
-          <Form.MultipleSelect
-            label="Safras"
-            options={options}
-            value={menuOptionsStore.values.safras}
-            onSelect={(_, values) => {
-              menuOptionsStore.actions.setSafras(values);
-            }}
-          />
-          <Form.MultipleSelect
-            label="Atividades"
-            options={options}
-            value={menuOptionsStore.values.atividades}
-            onSelect={(_, values) => {
-              menuOptionsStore.actions.setAtividades(values);
-            }}
-          />
-        </div>
-      </header>
-      {/* <pre style={{ padding: "24px" }}>
-        <code style={{ fontFamily: "Consolas" }}>
-          {JSON.stringify(menuOptionsStore.values, null, 2)}
-        </code>
-      </pre> */}
-    </>
+        <Form.MultipleSelect
+          label="Atividades"
+          options={atividades}
+          value={menuOptionsStore.state.atividades}
+          onSelect={(_, values) => {
+            menuOptionsStore.action.setAtividades(values);
+          }}
+        /> */}
+      </div>
+    </header>
   );
 };
