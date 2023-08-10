@@ -1,4 +1,5 @@
-import { Button, Table as MaterialTable } from "@mui/material";
+import { Cancel as CancelIcon, CheckCircle as CheckCircleIcon } from "@mui/icons-material";
+import { Button, Dialog, Table as MaterialTable } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,52 +10,22 @@ import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 import { Table } from "components/Table";
 import { useFazenda } from "hooks/useFazenda";
+import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
-import { useFazendaStore } from "store/fazenda.store";
+import { useNavigate } from "react-router-dom";
+import { fazendaStore } from "store/fazenda.store";
+import { modalStore } from "store/modal.store";
 import styles from "./styles.module.scss";
 
-const BasicTable = () => {
-  const fazendaStore = useFazendaStore();
-  const { fetchAllFazendas } = useFazenda();
+export const Listagem = observer((): JSX.Element => {
+  const navigate = useNavigate();
+
+  const { handleFetchAll, handleRemove, handleToggleStatus } = useFazenda();
 
   useEffect(() => {
-    fetchAllFazendas();
+    handleFetchAll();
   }, []);
 
-  return (
-    <TableContainer component={Paper}>
-      <MaterialTable>
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">Nome</TableCell>
-            <TableCell align="left">Descrição</TableCell>
-            <TableCell align="center">Área (Ha)</TableCell>
-            <TableCell align="right">Ativo</TableCell>
-            <TableCell align="right">Ações</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {fazendaStore.state.list.map((row) => (
-            <TableRow key={row.nome}>
-              <TableCell>{row.nome}</TableCell>
-              <TableCell align="center">{row.descricao}</TableCell>
-              <TableCell align="center">{row.areaHa}</TableCell>
-              <TableCell align="right">{row.ativo}</TableCell>
-              <Table.Actions
-                onVisualize={() => {}}
-                onEdit={() => {}}
-                onToggle={() => {}}
-                onDelete={() => {}}
-              />
-            </TableRow>
-          ))}
-        </TableBody>
-      </MaterialTable>
-    </TableContainer>
-  );
-};
-
-export const Listagem = (): JSX.Element => {
   return (
     <>
       <Header />
@@ -66,10 +37,95 @@ export const Listagem = (): JSX.Element => {
               Nova Fazenda
             </Button>
           </div>
-          <BasicTable />
+          <TableContainer component={Paper}>
+            <MaterialTable>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left">Nome</TableCell>
+                  <TableCell align="left">Descrição</TableCell>
+                  <TableCell align="center">Área (Ha)</TableCell>
+                  <TableCell align="right">Ativo</TableCell>
+                  <TableCell align="right">Ações</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {fazendaStore.listing.map((fazenda) => (
+                  <>
+                    <TableRow key={fazenda.id}>
+                      <TableCell>{fazenda.nome}</TableCell>
+                      <TableCell align="center">{fazenda.descricao}</TableCell>
+                      <TableCell align="center">{fazenda.tamanhoHa}</TableCell>
+                      <TableCell align="right">
+                        {fazenda.ativo ? (
+                          <CheckCircleIcon color="success" />
+                        ) : (
+                          <CancelIcon color="error" />
+                        )}
+                      </TableCell>
+                      <Table.Actions
+                        onVisualize={() => navigate(`/fazenda/visualizacao/${fazenda.id}`)}
+                        onEdit={() => navigate(`/fazenda/edicao/${fazenda.id}`)}
+                        onToggle={() => {
+                          modalStore.open("toggleFazendaStatus");
+                          fazendaStore.setSelectedFazenda(fazenda);
+                        }}
+                        onDelete={() => {
+                          modalStore.open("removeFazenda");
+                          fazendaStore.setSelectedFazenda(fazenda);
+                        }}
+                      />
+                    </TableRow>
+                  </>
+                ))}
+              </TableBody>
+            </MaterialTable>
+          </TableContainer>
         </div>
       </main>
       <Footer />
+      <Dialog
+        open={modalStore.toggleFazendaStatus.isOpen}
+        onClose={() => modalStore.close("toggleFazendaStatus")}
+        PaperProps={{ style: { padding: "32px", gap: "24px", width: "512px" } }}
+      >
+        <h2>Ativar/Desativar Fazenda</h2>
+        <p>Você tem certeza que deseja alterar o status desta fazenda?</p>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => modalStore.close("toggleFazendaStatus")}
+          >
+            Cancelar
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => handleToggleStatus(fazendaStore.selectedFazenda.id)}
+          >
+            Confirmar
+          </Button>
+        </div>
+      </Dialog>
+      <Dialog
+        open={modalStore.removeFazenda.isOpen}
+        onClose={() => modalStore.close("removeFazenda")}
+        PaperProps={{ style: { padding: "32px", gap: "24px", width: "512px" } }}
+      >
+        <h2>Excluir Fazenda</h2>
+        <p>Você tem certeza que deseja excluir esta fazenda?</p>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => modalStore.close("removeFazenda")}
+          >
+            Cancelar
+          </Button>
+          <Button variant="contained" onClick={() => handleRemove(fazendaStore.selectedFazenda.id)}>
+            Confirmar
+          </Button>
+        </div>
+      </Dialog>
     </>
   );
-};
+});

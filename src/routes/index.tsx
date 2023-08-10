@@ -7,7 +7,7 @@ export const router = createBrowserRouter([
     element: <Fazenda.Cadastro />,
   },
   {
-    path: "/fazenda/edicao",
+    path: "/fazenda/edicao/:id",
     element: <Fazenda.Edicao />,
   },
   {
@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
     element: <Fazenda.Listagem />,
   },
   {
-    path: "/fazenda/visualizacao",
+    path: "/fazenda/visualizacao/:id",
     element: <Fazenda.Visualizacao />,
   },
 ]);

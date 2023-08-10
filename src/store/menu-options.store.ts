@@ -1,4 +1,4 @@
-import { LocalStorageTool } from "tools/LocalStorageTool";
+import { localStorageTool } from "tools/local-storage-tool";
 import type { SelectOptionsType } from "types";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -20,14 +20,14 @@ export const useMenuOptionsStore = create(
   immer<Store>((set) => {
     return {
       state: {
-        clientes: LocalStorageTool.getItem("clientes"),
-        safras: LocalStorageTool.getItem("safras"),
-        atividades: LocalStorageTool.getItem("atividades"),
+        clientes: localStorageTool.getItem("clientes"),
+        safras: localStorageTool.getItem("safras"),
+        atividades: localStorageTool.getItem("atividades"),
       },
 
       action: {
         setClientes(payload: SelectOptionsType | null): void {
-          LocalStorageTool.setItem("clientes", payload);
+          localStorageTool.setItem("clientes", payload);
 
           set(({ state }) => {
             state.clientes = payload;
@@ -35,7 +35,7 @@ export const useMenuOptionsStore = create(
         },
 
         setSafras(payload: SelectOptionsType[] | null): void {
-          LocalStorageTool.setItem("safras", payload);
+          localStorageTool.setItem("safras", payload);
 
           set(({ state }) => {
             state.safras = payload;
@@ -43,7 +43,7 @@ export const useMenuOptionsStore = create(
         },
 
         setAtividades(payload: SelectOptionsType[] | null): void {
-          LocalStorageTool.setItem("atividades", payload);
+          localStorageTool.setItem("atividades", payload);
 
           set(({ state }) => {
             state.atividades = payload;

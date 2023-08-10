@@ -1,5 +1,5 @@
-export abstract class LocalStorageTool {
-  public static getItem<T>(key: string): T | null {
+class LocalStorageTool {
+  public getItem<T>(key: string): T | null {
     const storageItem: string | null = localStorage.getItem(key);
 
     if (storageItem) return JSON.parse(storageItem);
@@ -7,7 +7,9 @@ export abstract class LocalStorageTool {
     return null;
   }
 
-  public static setItem<T>(key: string, value: T): void {
+  public setItem<T>(key: string, value: T): void {
     localStorage.setItem(key, JSON.stringify(value, null, 2));
   }
 }
+
+export const localStorageTool = new LocalStorageTool();

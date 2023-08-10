@@ -1,24 +1,30 @@
+import { action, makeAutoObservable, observable } from "mobx";
 import type { FetchAllResponse } from "services/fazenda-service";
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
 
-type Store = {
-  state: {
-    list: FetchAllResponse[];
-  };
-  setList(payload: FetchAllResponse[]): void;
-};
+class FazendaStore {
+  public listing: FetchAllResponse[];
+  public selectedFazenda: FetchAllResponse;
 
-export const useFazendaStore = create(
-  immer<Store>((set) => ({
-    state: {
-      list: [],
-    },
+  public constructor() {
+    this.listing = [];
+    this.selectedFazenda = {} as FetchAllResponse;
 
-    setList(payload: FetchAllResponse[]): void {
-      set(({ state }) => {
-        state.list = payload;
-      });
-    },
-  })),
-);
+    makeAutoObservable(this, {
+      listing: observable,
+      selectedFazenda: observable,
+
+      setListing: action,
+      setSelectedFazenda: action,
+    });
+  }
+
+  public setListing(listing: FetchAllResponse[]): void {
+    this.listing = listing;
+  }
+
+  public setSelectedFazenda(fazenda: FetchAllResponse): void {
+    this.selectedFazenda = fazenda;
+  }
+}
+
+export const fazendaStore = new FazendaStore();

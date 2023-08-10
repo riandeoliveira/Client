@@ -3,13 +3,15 @@ import { ArrowBack as ArrowBackIcon, Send as SendIcon } from "@mui/icons-materia
 import { Button, Paper, TextField } from "@mui/material";
 import { Footer } from "components/Footer";
 import { Header } from "components/Header";
+import { useFazenda } from "hooks/useFazenda";
 import { useForm } from "react-hook-form";
 import type { FazendaCadastroSchema } from "schemas/fazenda-schema";
 import { fazendaSchema } from "schemas/fazenda-schema";
-import { FazendaService } from "services/fazenda-service";
 import styles from "./styles.module.scss";
 
 export const Cadastro = (): JSX.Element => {
+  const { handleCreate } = useFazenda();
+
   const formMethods = useForm<FazendaCadastroSchema>({
     defaultValues: {
       nome: "",
@@ -28,17 +30,11 @@ export const Cadastro = (): JSX.Element => {
 
   const form = getValues();
 
-  const submit = async (data: unknown) => {
-    await FazendaService.create(data);
-  };
-
-  const todoListStore = useTodoListStore();
-
   return (
     <>
       <Header />
       <main className={styles.main}>
-        <form className={styles.form} onSubmit={handleSubmit(submit)}>
+        <form className={styles.form} onSubmit={handleSubmit(handleCreate)}>
           <h1 className={styles.title}>Cadastro de Fazendas</h1>
           <Paper elevation={4} className={styles.paper}>
             <div className={styles.input_box}>
