@@ -1,8 +1,8 @@
-export namespace FazendaRequest {
+export namespace GrupoLocaisRequest {
   export type Create = {};
 }
 
-export namespace FazendaResponse {
+export namespace GrupoLocaisResponse {
   export type FetchAll = {};
 
   export type ToggleStatus = {

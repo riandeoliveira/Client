@@ -9,11 +9,11 @@ import TableRow from "@mui/material/TableRow";
 import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 import { Table } from "components/Table";
-import { useFazenda } from "hooks/useFazenda";
+import { useFazenda } from "hooks/useGrupoLocais";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { fazendaStore } from "store/fazenda.store";
+import { fazendaStore } from "store/grupo-locais.store";
 import { modalStore } from "store/modal.store";
 import styles from "./styles.module.scss";
 

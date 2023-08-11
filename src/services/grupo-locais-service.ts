@@ -4,7 +4,7 @@ import { errorMessages } from "messages/error";
 import { successMessages } from "messages/success";
 import { loadingStore } from "store/loading.store";
 import { toastTool } from "tools/toast-tool";
-import type { FazendaRequest } from "types/api";
+import type { GrupoLocaisRequest } from "types/api";
 
 export type FetchAllResponse = {
   ativo: boolean;
@@ -14,8 +14,8 @@ export type FetchAllResponse = {
   tamanhoHa: number;
 };
 
-class FazendaService {
-  public async create(data: FazendaRequest.Create) {
+class GrupoLocaisService {
+  public async create(data: GrupoLocaisRequest.Create) {
     loadingStore.wait();
 
     try {
@@ -109,4 +109,4 @@ class FazendaService {
   }
 }
 
-export const fazendaService = new FazendaService();
+export const grupoLocaisService = new GrupoLocaisService();

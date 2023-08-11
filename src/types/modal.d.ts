@@ -1,1 +1,1 @@
-export type ModalType = "removeFazenda" | "toggleFazendaStatus";
+export type ModalType = "removeGrupoLocais" | "toggleGrupoLocaisStatus";

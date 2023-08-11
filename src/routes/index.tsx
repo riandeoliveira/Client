@@ -1,21 +1,21 @@
-import { Fazenda } from "pages/fazenda";
+import { GrupoLocais } from "pages/grupo-locais";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
   {
-    path: "/fazenda/cadastro",
-    element: <Fazenda.Cadastro />,
+    path: "/grupo-locais/cadastro",
+    element: <GrupoLocais.Cadastro />,
   },
   {
-    path: "/fazenda/edicao/:id",
-    element: <Fazenda.Edicao />,
+    path: "/grupo-locais/edicao/:id",
+    element: <GrupoLocais.Edicao />,
   },
   {
-    path: "/fazenda/listagem",
-    element: <Fazenda.Listagem />,
+    path: "/grupo-locais/listagem",
+    element: <GrupoLocais.Listagem />,
   },
   {
-    path: "/fazenda/visualizacao/:id",
-    element: <Fazenda.Visualizacao />,
+    path: "/grupo-locais/visualizacao/:id",
+    element: <GrupoLocais.Visualizacao />,
   },
 ]);

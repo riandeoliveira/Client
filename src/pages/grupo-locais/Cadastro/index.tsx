@@ -3,22 +3,22 @@ import { ArrowBack as ArrowBackIcon, Send as SendIcon } from "@mui/icons-materia
 import { Button, Paper, TextField } from "@mui/material";
 import { Footer } from "components/Footer";
 import { Header } from "components/Header";
-import { useFazenda } from "hooks/useFazenda";
+import { useGrupoLocais } from "hooks/useGrupoLocais";
 import { useForm } from "react-hook-form";
-import type { FazendaCadastroSchema } from "schemas/fazenda-schema";
-import { fazendaSchema } from "schemas/fazenda-schema";
+import type { GrupoLocaisCadastroSchema } from "schemas/grupo-locais-schema";
+import { grupoLocaisSchema } from "schemas/grupo-locais-schema";
 import styles from "./styles.module.scss";
 
 export const Cadastro = (): JSX.Element => {
-  const { handleCreate } = useFazenda();
+  const { handleCreate } = useGrupoLocais();
 
-  const formMethods = useForm<FazendaCadastroSchema>({
+  const formMethods = useForm<GrupoLocaisCadastroSchema>({
     defaultValues: {
       nome: "",
       areaHa: 0,
       descricao: "",
     },
-    resolver: zodResolver(fazendaSchema.cadastro),
+    resolver: zodResolver(grupoLocaisSchema.cadastro),
   });
 
   const {

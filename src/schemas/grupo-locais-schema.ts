@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const fazendaSchema = {
+export const grupoLocaisSchema = {
   cadastro: z.object({
     nome: z
       .string()
@@ -18,5 +18,5 @@ export const fazendaSchema = {
   }),
 };
 
-export type FazendaCadastroSchema = z.infer<typeof fazendaSchema.cadastro>;
-export type FazendaEdicaoSchema = z.infer<typeof fazendaSchema.edicao>;
+export type GrupoLocaisCadastroSchema = z.infer<typeof grupoLocaisSchema.cadastro>;
+export type GrupoLocaisEdicaoSchema = z.infer<typeof grupoLocaisSchema.edicao>;
