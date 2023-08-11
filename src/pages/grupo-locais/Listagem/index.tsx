@@ -9,18 +9,18 @@ import TableRow from "@mui/material/TableRow";
 import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 import { Table } from "components/Table";
-import { useFazenda } from "hooks/useGrupoLocais";
+import { useGrupoLocais } from "hooks/useGrupoLocais";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { fazendaStore } from "store/grupo-locais.store";
+import { grupoLocaisStore } from "store/grupo-locais.store";
 import { modalStore } from "store/modal.store";
 import styles from "./styles.module.scss";
 
 export const Listagem = observer((): JSX.Element => {
   const navigate = useNavigate();
 
-  const { handleFetchAll, handleRemove, handleToggleStatus } = useFazenda();
+  const { handleFetchAll, handleRemove, handleToggleStatus } = useGrupoLocais();
 
   useEffect(() => {
     handleFetchAll();
@@ -33,7 +33,7 @@ export const Listagem = observer((): JSX.Element => {
         <div className={styles.page_box}>
           <div className={styles.page_header}>
             <h1 className={styles.title}>Fazendas</h1>
-            <Button variant="contained" href="/fazenda/cadastro">
+            <Button variant="contained" href="/grupo-locais/cadastro">
               Nova Fazenda
             </Button>
           </div>
@@ -49,29 +49,29 @@ export const Listagem = observer((): JSX.Element => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {fazendaStore.listing.map((fazenda) => (
+                {grupoLocaisStore.listing.map((grupoLocais) => (
                   <>
-                    <TableRow key={fazenda.id}>
-                      <TableCell>{fazenda.nome}</TableCell>
-                      <TableCell align="center">{fazenda.descricao}</TableCell>
-                      <TableCell align="center">{fazenda.tamanhoHa}</TableCell>
+                    <TableRow key={grupoLocais.id}>
+                      <TableCell>{grupoLocais.nome}</TableCell>
+                      <TableCell align="center">{grupoLocais.descricao}</TableCell>
+                      <TableCell align="center">{grupoLocais.tamanhoHa}</TableCell>
                       <TableCell align="right">
-                        {fazenda.ativo ? (
+                        {grupoLocais.ativo ? (
                           <CheckCircleIcon color="success" />
                         ) : (
                           <CancelIcon color="error" />
                         )}
                       </TableCell>
                       <Table.Actions
-                        onVisualize={() => navigate(`/fazenda/visualizacao/${fazenda.id}`)}
-                        onEdit={() => navigate(`/fazenda/edicao/${fazenda.id}`)}
+                        onVisualize={() => navigate(`/grupo-locais/visualizacao/${grupoLocais.id}`)}
+                        onEdit={() => navigate(`/grupo-locais/edicao/${grupoLocais.id}`)}
                         onToggle={() => {
-                          modalStore.open("toggleFazendaStatus");
-                          fazendaStore.setSelectedFazenda(fazenda);
+                          modalStore.open("toggleGrupoLocaisStatus");
+                          grupoLocaisStore.setselectedGrupoLocais(grupoLocais);
                         }}
                         onDelete={() => {
-                          modalStore.open("removeFazenda");
-                          fazendaStore.setSelectedFazenda(fazenda);
+                          modalStore.open("removeGrupoLocais");
+                          grupoLocaisStore.setselectedGrupoLocais(grupoLocais);
                         }}
                       />
                     </TableRow>
@@ -84,8 +84,8 @@ export const Listagem = observer((): JSX.Element => {
       </main>
       <Footer />
       <Dialog
-        open={modalStore.toggleFazendaStatus.isOpen}
-        onClose={() => modalStore.close("toggleFazendaStatus")}
+        open={modalStore.toggleGrupoLocaisStatus.isOpen}
+        onClose={() => modalStore.close("toggleGrupoLocaisStatus")}
         PaperProps={{ style: { padding: "32px", gap: "24px", width: "512px" } }}
       >
         <h2>Ativar/Desativar Fazenda</h2>
@@ -94,21 +94,21 @@ export const Listagem = observer((): JSX.Element => {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => modalStore.close("toggleFazendaStatus")}
+            onClick={() => modalStore.close("toggleGrupoLocaisStatus")}
           >
             Cancelar
           </Button>
           <Button
             variant="contained"
-            onClick={() => handleToggleStatus(fazendaStore.selectedFazenda.id)}
+            onClick={() => handleToggleStatus(grupoLocaisStore.selectedGrupoLocais.id)}
           >
             Confirmar
           </Button>
         </div>
       </Dialog>
       <Dialog
-        open={modalStore.removeFazenda.isOpen}
-        onClose={() => modalStore.close("removeFazenda")}
+        open={modalStore.removeGrupoLocais.isOpen}
+        onClose={() => modalStore.close("removeGrupoLocais")}
         PaperProps={{ style: { padding: "32px", gap: "24px", width: "512px" } }}
       >
         <h2>Excluir Fazenda</h2>
@@ -117,11 +117,14 @@ export const Listagem = observer((): JSX.Element => {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => modalStore.close("removeFazenda")}
+            onClick={() => modalStore.close("removeGrupoLocais")}
           >
             Cancelar
           </Button>
-          <Button variant="contained" onClick={() => handleRemove(fazendaStore.selectedFazenda.id)}>
+          <Button
+            variant="contained"
+            onClick={() => handleRemove(grupoLocaisStore.selectedGrupoLocais.id)}
+          >
             Confirmar
           </Button>
         </div>

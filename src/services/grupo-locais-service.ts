@@ -24,11 +24,11 @@ class GrupoLocaisService {
         fazendaId: "41559565-65a8-4170-aba2-ce724a2089be",
       });
 
-      toastTool.success(successMessages.fazenda.create);
+      toastTool.success(successMessages.grupoLocais.create);
     } catch (error: unknown) {
       console.error(error);
 
-      toastTool.error(errorMessages.fazenda.create);
+      toastTool.error(errorMessages.grupoLocais.create);
     } finally {
       loadingStore.stop();
     }
@@ -78,13 +78,13 @@ class GrupoLocaisService {
     try {
       const response = await api.delete(`/GrupoLocais/${fazendaId}`);
 
-      toastTool.success(successMessages.fazenda.remove);
+      toastTool.success(successMessages.grupoLocais.remove);
 
       return response.data;
     } catch (error: unknown) {
       console.error(error);
 
-      toastTool.error(errorMessages.fazenda.remove);
+      toastTool.error(errorMessages.grupoLocais.remove);
     } finally {
       loadingStore.stop();
     }
@@ -96,13 +96,13 @@ class GrupoLocaisService {
     try {
       const response = await api.get(`/GrupoLocais/AtivarDesativar/${fazendaId}`);
 
-      toastTool.success(successMessages.fazenda.togglStatus);
+      toastTool.success(successMessages.grupoLocais.togglStatus);
 
       return response.data;
     } catch (error: unknown) {
       console.error(error);
 
-      toastTool.error(errorMessages.fazenda.toggleStatus);
+      toastTool.error(errorMessages.grupoLocais.toggleStatus);
     } finally {
       loadingStore.stop();
     }

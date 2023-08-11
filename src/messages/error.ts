@@ -1,5 +1,5 @@
 export const errorMessages = {
-  fazenda: {
+  grupoLocais: {
     create: "Ocorreu um erro ao criar uma fazenda! Por favor, contate o administrador do sistema.",
     remove:
       "Ocorreu um erro ao remover uma fazenda! Por favor, contate o administrador do sistema.",

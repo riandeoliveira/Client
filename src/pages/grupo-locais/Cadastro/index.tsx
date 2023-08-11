@@ -78,7 +78,7 @@ export const Cadastro = (): JSX.Element => {
               variant="outlined"
               color="secondary"
               startIcon={<ArrowBackIcon />}
-              href="/fazenda/listagem"
+              href="/grupo-locais/listagem"
             >
               Voltar
             </Button>
