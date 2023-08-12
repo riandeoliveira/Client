@@ -1,34 +1,18 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowBack as ArrowBackIcon, Send as SendIcon } from "@mui/icons-material";
 import { Button, Paper, TextField } from "@mui/material";
 import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 import { useGrupoLocais } from "hooks/useGrupoLocais";
-import { useForm } from "react-hook-form";
-import type { GrupoLocaisCadastroSchema } from "schemas/grupo-locais-schema";
-import { grupoLocaisSchema } from "schemas/grupo-locais-schema";
 import styles from "./styles.module.scss";
 
 export const Cadastro = (): JSX.Element => {
-  const { handleCreate } = useGrupoLocais();
-
-  const formMethods = useForm<GrupoLocaisCadastroSchema>({
-    defaultValues: {
-      nome: "",
-      areaHa: 0,
-      descricao: "",
-    },
-    resolver: zodResolver(grupoLocaisSchema.cadastro),
-  });
+  const { grupoLocaisCadastroForm, handleCreate } = useGrupoLocais();
 
   const {
-    formState: { errors },
-    getValues,
     handleSubmit,
     setValue,
-  } = formMethods;
-
-  const form = getValues();
+    formState: { errors },
+  } = grupoLocaisCadastroForm;
 
   return (
     <>

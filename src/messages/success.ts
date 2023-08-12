@@ -1,7 +1,7 @@
-export const successMessages = {
-  grupoLocais: {
-    create: "Fazenda criada com sucesso!",
-    remove: "Fazenda removida com sucesso!",
-    togglStatus: "Status da fazenda alterado com sucesso!",
-  },
-};
+export namespace SuccessMessages {
+  export enum GrupoLocais {
+    CREATE = "Fazenda criada com sucesso!",
+    REMOVE = "Fazenda removida com sucesso!",
+    TOGGLE_STATUS = "Status da fazenda alterado com sucesso!",
+  }
+}

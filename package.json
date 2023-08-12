@@ -31,7 +31,8 @@
     "prebuild": "npm run lint",
     "prettier": "prettier --write src/**/*.{js,jsx,ts,tsx} vite.config.ts",
     "start": "vite preview",
-    "stylelint": "stylelint --fix src/**/*.scss"
+    "stylelint": "stylelint --fix src/**/*.scss",
+    "test": "vitest"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -69,7 +70,8 @@
     "typescript": "^5.0.2",
     "typescript-plugin-css-modules": "^5.0.1",
     "vite": "^4.4.5",
-    "vite-tsconfig-paths": "^4.2.0"
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^0.34.1"
   },
   "repository": {
     "type": "git",

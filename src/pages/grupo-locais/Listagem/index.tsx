@@ -19,7 +19,6 @@ import styles from "./styles.module.scss";
 
 export const Listagem = observer((): JSX.Element => {
   const navigate = useNavigate();
-
   const { handleFetchAll, handleRemove, handleToggleStatus } = useGrupoLocais();
 
   useEffect(() => {
@@ -54,7 +53,7 @@ export const Listagem = observer((): JSX.Element => {
                     <TableRow key={grupoLocais.id}>
                       <TableCell>{grupoLocais.nome}</TableCell>
                       <TableCell align="center">{grupoLocais.descricao}</TableCell>
-                      <TableCell align="center">{grupoLocais.tamanhoHa}</TableCell>
+                      <TableCell align="center">{grupoLocais.areaHa}</TableCell>
                       <TableCell align="right">
                         {grupoLocais.ativo ? (
                           <CheckCircleIcon color="success" />

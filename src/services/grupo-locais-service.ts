@@ -1,21 +1,18 @@
 import { api } from "apis";
-import type { AxiosResponse } from "axios";
-import { errorMessages } from "messages/error";
-import { successMessages } from "messages/success";
+import { ErrorMessages } from "messages/error";
+import { SuccessMessages } from "messages/success";
 import { loadingStore } from "store/loading.store";
 import { toastTool } from "tools/toast-tool";
-import type { GrupoLocaisRequest } from "types/api";
-
-export type FetchAllResponse = {
-  ativo: boolean;
-  descricao: string;
-  id: string;
-  nome: string;
-  tamanhoHa: number;
-};
+import type {
+  CreateGrupoLocais,
+  FetchAllGrupoLocais,
+  FetchGrupoLocalById,
+  RemoveGrupoLocais,
+  ToggleGrupoLocaisStatus,
+} from "types/api";
 
 class GrupoLocaisService {
-  public async create(data: GrupoLocaisRequest.Create) {
+  public async create(data: CreateGrupoLocais.Request) {
     loadingStore.wait();
 
     try {
@@ -24,29 +21,26 @@ class GrupoLocaisService {
         fazendaId: "41559565-65a8-4170-aba2-ce724a2089be",
       });
 
-      toastTool.success(successMessages.grupoLocais.create);
+      toastTool.success(SuccessMessages.GrupoLocais.CREATE);
     } catch (error: unknown) {
       console.error(error);
 
-      toastTool.error(errorMessages.grupoLocais.create);
+      toastTool.error(ErrorMessages.GrupoLocais.CREATE);
     } finally {
       loadingStore.stop();
     }
   }
 
-  public async fetchAll(): Promise<FetchAllResponse[]> {
+  public async fetchAll(): Promise<FetchAllGrupoLocais.Result[]> {
     loadingStore.wait();
 
     try {
-      const response: AxiosResponse<FetchAllResponse[]> = await api.post(
-        "/GrupoLocais/BuscarTudo",
-        {
-          fazendaId: "41559565-65a8-4170-aba2-ce724a2089be",
-          page: 1,
-          pageSize: 10,
-          filtro: "",
-        },
-      );
+      const response: FetchAllGrupoLocais.Response = await api.post("/GrupoLocais/BuscarTudo", {
+        fazendaId: "41559565-65a8-4170-aba2-ce724a2089be",
+        page: 1,
+        pageSize: 10,
+        filtro: "",
+      });
 
       return response.data.result.items;
     } catch (error: unknown) {
@@ -58,51 +52,63 @@ class GrupoLocaisService {
     }
   }
 
-  public async fetchById(fazendaId: string) {
+  public async fetchById(fazendaId: string): Promise<FetchGrupoLocalById.Result> {
     loadingStore.wait();
 
     try {
-      const response = await api.get(`/GrupoLocais/${fazendaId}`);
+      const response: FetchGrupoLocalById.Response = await api.get(`/GrupoLocais/${fazendaId}`);
 
       return response.data.result;
     } catch (error: unknown) {
       console.error(error);
+
+      return error;
     } finally {
       loadingStore.stop();
     }
   }
 
-  public async remove(fazendaId: string) {
+  public async remove(fazendaId: string): Promise<void> {
     loadingStore.wait();
 
     try {
-      const response = await api.delete(`/GrupoLocais/${fazendaId}`);
+      const response: RemoveGrupoLocais.Response = await api.delete(`/GrupoLocais/${fazendaId}`);
+      const message = response.data.mensagem;
 
-      toastTool.success(successMessages.grupoLocais.remove);
+      if (!response.data.isOk) {
+        if (!message) {
+          throw new Error();
+        }
 
-      return response.data;
+        toastTool.warning(message);
+        return;
+      }
+
+      toastTool.success(SuccessMessages.GrupoLocais.REMOVE);
     } catch (error: unknown) {
       console.error(error);
 
-      toastTool.error(errorMessages.grupoLocais.remove);
+      toastTool.error(ErrorMessages.GrupoLocais.REMOVE);
     } finally {
       loadingStore.stop();
     }
   }
 
-  public async toggleStatus(fazendaId: string) {
+  public async toggleStatus(fazendaId: string): Promise<void> {
     loadingStore.wait();
 
     try {
-      const response = await api.get(`/GrupoLocais/AtivarDesativar/${fazendaId}`);
+      const response: ToggleGrupoLocaisStatus.Response = await api.get(
+        `/GrupoLocais/AtivarDesativar/${fazendaId}`,
+      );
 
-      toastTool.success(successMessages.grupoLocais.togglStatus);
+      if (!response.data) throw new Error();
 
-      return response.data;
+      toastTool.success(SuccessMessages.GrupoLocais.TOGGLE_STATUS);
     } catch (error: unknown) {
       console.error(error);
 
-      toastTool.error(errorMessages.grupoLocais.toggleStatus);
+      toastTool.error(ErrorMessages.GrupoLocais.TOGGLE_STATUS);
     } finally {
       loadingStore.stop();
     }

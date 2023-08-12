@@ -1,1 +1,41 @@
 @use "../../../styles" as *;
+
+.main {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.form {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  color: $green;
+}
+
+.paper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px;
+  width: 1200px;
+}
+
+.input {
+  width: 100%;
+}
+
+.input_box {
+  display: flex;
+  gap: 64px;
+  justify-content: space-between;
+}
+
+.button_box {
+  display: flex;
+  justify-content: space-between;
+}
