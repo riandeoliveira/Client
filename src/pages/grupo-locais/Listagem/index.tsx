@@ -48,34 +48,38 @@ export const Listagem = observer((): JSX.Element => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {grupoLocaisStore.listing.map((grupoLocais) => (
-                  <>
-                    <TableRow key={grupoLocais.id}>
-                      <TableCell>{grupoLocais.nome}</TableCell>
-                      <TableCell align="center">{grupoLocais.descricao}</TableCell>
-                      <TableCell align="center">{grupoLocais.areaHa}</TableCell>
-                      <TableCell align="right">
-                        {grupoLocais.ativo ? (
-                          <CheckCircleIcon color="success" />
-                        ) : (
-                          <CancelIcon color="error" />
-                        )}
-                      </TableCell>
-                      <Table.Actions
-                        onVisualize={() => navigate(`/grupo-locais/visualizacao/${grupoLocais.id}`)}
-                        onEdit={() => navigate(`/grupo-locais/edicao/${grupoLocais.id}`)}
-                        onToggle={() => {
-                          modalStore.open("toggleGrupoLocaisStatus");
-                          grupoLocaisStore.setselectedGrupoLocais(grupoLocais);
-                        }}
-                        onDelete={() => {
-                          modalStore.open("removeGrupoLocais");
-                          grupoLocaisStore.setselectedGrupoLocais(grupoLocais);
-                        }}
-                      />
-                    </TableRow>
-                  </>
-                ))}
+                {grupoLocaisStore.listing.map((grupoLocais) => {
+                  return (
+                    <>
+                      <TableRow key={grupoLocais.id}>
+                        <TableCell>{grupoLocais.nome}</TableCell>
+                        <TableCell align="center">{grupoLocais.descricao}</TableCell>
+                        <TableCell align="center">{grupoLocais.tamanhoHa}</TableCell>
+                        <TableCell align="right">
+                          {grupoLocais.ativo ? (
+                            <CheckCircleIcon color="success" />
+                          ) : (
+                            <CancelIcon color="error" />
+                          )}
+                        </TableCell>
+                        <Table.Actions
+                          onVisualize={() =>
+                            navigate(`/grupo-locais/visualizacao/${grupoLocais.id}`)
+                          }
+                          onEdit={() => navigate(`/grupo-locais/edicao/${grupoLocais.id}`)}
+                          onToggle={() => {
+                            modalStore.open("toggleGrupoLocaisStatus");
+                            grupoLocaisStore.setSelectedGrupoLocais(grupoLocais);
+                          }}
+                          onDelete={() => {
+                            modalStore.open("removeGrupoLocais");
+                            grupoLocaisStore.setSelectedGrupoLocais(grupoLocais);
+                          }}
+                        />
+                      </TableRow>
+                    </>
+                  );
+                })}
               </TableBody>
             </MaterialTable>
           </TableContainer>

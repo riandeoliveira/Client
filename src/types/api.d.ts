@@ -1,10 +1,10 @@
 import type { AxiosResponse } from "axios";
 
 export type BaseResponse<T = void> = {
-  exception?: unknown;
+  exception: unknown | null;
   isOk: boolean;
-  mensagem?: string;
-  result?: T;
+  mensagem: string | null;
+  result: T | null;
   validates: unknown[];
 };
 
@@ -16,20 +16,22 @@ export type PaginationResponse<T> = {
 
 export namespace CreateGrupoLocais {
   export interface Request {
-    descricao: string;
+    descricao: string | null;
     fazendaId: string;
     nome: string;
-    areaHa?: number;
+    tamanhoHa: number | null;
   }
+
+  export interface Response extends AxiosResponse<BaseResponse> {}
 }
 
 export namespace FetchAllGrupoLocais {
   export interface Result {
-    id: string;
     ativo: boolean;
     descricao: string;
+    id: string;
     nome: string;
-    tamanhoHa?: number;
+    tamanhoHa: number | null;
   }
 
   export interface Response extends AxiosResponse<BaseResponse<PaginationResponse<Result>>> {}
@@ -38,15 +40,15 @@ export namespace FetchAllGrupoLocais {
 export namespace FetchGrupoLocalById {
   export interface Result {
     ativo: boolean;
-    dataAtualizacao?: string;
+    dataAtualizacao: string | null;
     dataCriacao: string;
-    dataExclusao?: string;
+    dataExclusao: string | null;
     descricao: string;
     fazendaId: string;
     id: string;
-    idMobile?: string;
+    idMobile: string | null;
     nome: string;
-    tamanhoHa?: number;
+    tamanhoHa: number | null;
   }
 
   export interface Response extends AxiosResponse<BaseResponse<Result>> {}
@@ -56,18 +58,30 @@ export namespace RemoveGrupoLocais {
   export interface Response extends AxiosResponse<BaseResponse> {}
 }
 
+export namespace UpdateGrupoLocais {
+  export interface Request {
+    descricao: string | null;
+    fazendaId: string;
+    id: string;
+    nome: string;
+    tamanhoHa: number | null;
+  }
+
+  export interface Response extends AxiosResponse<BaseResponse> {}
+}
+
 export namespace ToggleGrupoLocaisStatus {
   export interface Result {
     ativo: boolean;
-    dataAtualizacao?: string;
+    dataAtualizacao: string | null;
     dataCriacao: string;
-    dataExclusao?: string;
+    dataExclusao: string | null;
     descricao: string;
     fazendaId: string;
     id: string;
-    idMobile?: string;
+    idMobile: string | null;
     nome: string;
-    tamanhoHa?: number;
+    tamanhoHa: number | null;
   }
 
   export interface Response extends AxiosResponse<Result> {}

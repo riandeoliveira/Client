@@ -1,4 +1,5 @@
 import { Autocomplete, Checkbox, TextField } from "@mui/material";
+import { useGrupoLocais } from "hooks/useGrupoLocais";
 import { useEffect, useState } from "react";
 import type { AtividadeResponse } from "services/atividade-service";
 import type { FetchAllResponse } from "services/cliente-service";
@@ -9,6 +10,7 @@ import styles from "./styles.module.scss";
 
 export const Header = (): JSX.Element => {
   const menuOptionsStore = useMenuOptionsStore();
+  const { grupoLocaisCadastroForm, grupoLocaisEdicaoForm } = useGrupoLocais();
 
   const [clientes, setClientes] = useState<FetchAllResponse[]>([]);
   const [safras, setSafras] = useState<FetchByFazendaIdResponse[]>([]);

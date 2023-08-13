@@ -1,28 +1,38 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import type { FetchAllResponse } from "services/grupo-locais-service";
+import type { FetchAllGrupoLocais } from "types/api";
+
+interface IGrupoLocais extends FetchAllGrupoLocais.Result {}
 
 class GrupoLocaisStore {
-  public listing: FetchAllResponse[];
-  public selectedGrupoLocais: FetchAllResponse;
+  public current: IGrupoLocais | null;
+  public listing: IGrupoLocais[];
+  public selectedGrupoLocais: IGrupoLocais;
 
   public constructor() {
+    this.current = {} as IGrupoLocais;
     this.listing = [];
-    this.selectedGrupoLocais = {} as FetchAllResponse;
+    this.selectedGrupoLocais = {} as IGrupoLocais;
 
     makeAutoObservable(this, {
+      current: observable,
       listing: observable,
       selectedGrupoLocais: observable,
 
+      setCurrent: action,
       setListing: action,
-      setselectedGrupoLocais: action,
+      setSelectedGrupoLocais: action,
     });
   }
 
-  public setListing(listing: FetchAllResponse[]): void {
+  public setCurrent(current: IGrupoLocais | null): void {
+    this.current = current;
+  }
+
+  public setListing(listing: IGrupoLocais[]): void {
     this.listing = listing;
   }
 
-  public setselectedGrupoLocais(grupoLocais: FetchAllResponse): void {
+  public setSelectedGrupoLocais(grupoLocais: IGrupoLocais): void {
     this.selectedGrupoLocais = grupoLocais;
   }
 }

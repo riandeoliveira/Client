@@ -3,21 +3,19 @@ import { Button, Paper, TextField } from "@mui/material";
 import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 import { useGrupoLocais } from "hooks/useGrupoLocais";
+import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { grupoLocaisStore } from "store/grupo-locais.store";
 import styles from "./styles.module.scss";
 
-export const Visualizacao = (): JSX.Element => {
+export const Visualizacao = observer((): JSX.Element => {
   const { id } = useParams();
   const { handleFetchById } = useGrupoLocais();
 
   useEffect(() => {
-    handleFetchById(id as string);
+    handleFetchById(id);
   }, []);
-
-  // TODO: Trazer os dados
-
-  // TODO: Preencher no formulário de visualização
 
   return (
     <>
@@ -32,7 +30,8 @@ export const Visualizacao = (): JSX.Element => {
                 label="Nome*:"
                 variant="standard"
                 disabled
-                value={"Teste"}
+                value={grupoLocaisStore.current?.nome}
+                InputLabelProps={{ shrink: true }}
                 className={styles.input}
               />
               <TextField
@@ -40,7 +39,8 @@ export const Visualizacao = (): JSX.Element => {
                 label="Área (Ha):"
                 variant="standard"
                 disabled
-                value={10}
+                value={grupoLocaisStore.current?.tamanhoHa}
+                InputLabelProps={{ shrink: true }}
                 className={styles.input}
               />
             </div>
@@ -49,7 +49,8 @@ export const Visualizacao = (): JSX.Element => {
               label="Descrição:"
               variant="standard"
               disabled
-              value={"Teste"}
+              value={grupoLocaisStore.current?.descricao}
+              InputLabelProps={{ shrink: true }}
               className={styles.input}
             />
           </Paper>
@@ -68,4 +69,4 @@ export const Visualizacao = (): JSX.Element => {
       <Footer />
     </>
   );
-};
+});

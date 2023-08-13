@@ -9,23 +9,36 @@ import type {
   FetchGrupoLocalById,
   RemoveGrupoLocais,
   ToggleGrupoLocaisStatus,
+  UpdateGrupoLocais,
 } from "types/api";
 
 class GrupoLocaisService {
-  public async create(data: CreateGrupoLocais.Request) {
+  public async create(grupoLocaisData: CreateGrupoLocais.Request): Promise<boolean> {
     loadingStore.wait();
 
     try {
-      await api.post("/GrupoLocais/", {
-        ...data,
-        fazendaId: "41559565-65a8-4170-aba2-ce724a2089be",
-      });
+      const response: CreateGrupoLocais.Response = await api.post("/GrupoLocais/", grupoLocaisData);
+      const message = response.data.mensagem;
+
+      if (!response.data.isOk) {
+        if (!message) {
+          throw new Error();
+        }
+
+        toastTool.warning(message);
+
+        return false;
+      }
 
       toastTool.success(SuccessMessages.GrupoLocais.CREATE);
+
+      return true;
     } catch (error: unknown) {
       console.error(error);
 
       toastTool.error(ErrorMessages.GrupoLocais.CREATE);
+
+      return false;
     } finally {
       loadingStore.stop();
     }
@@ -42,9 +55,11 @@ class GrupoLocaisService {
         filtro: "",
       });
 
-      return response.data.result.items;
+      return response.data.result?.items ?? [];
     } catch (error: unknown) {
       console.error(error);
+
+      toastTool.error(ErrorMessages.GrupoLocais.FETCH_ALL);
 
       return [];
     } finally {
@@ -52,23 +67,29 @@ class GrupoLocaisService {
     }
   }
 
-  public async fetchById(fazendaId: string): Promise<FetchGrupoLocalById.Result> {
+  public async fetchById(fazendaId?: string): Promise<FetchGrupoLocalById.Result | null> {
     loadingStore.wait();
 
     try {
       const response: FetchGrupoLocalById.Response = await api.get(`/GrupoLocais/${fazendaId}`);
 
+      if (!response.data.result) {
+        throw new Error();
+      }
+
       return response.data.result;
     } catch (error: unknown) {
       console.error(error);
 
-      return error;
+      toastTool.error(ErrorMessages.GrupoLocais.FETCH_BY_ID);
+
+      return null;
     } finally {
       loadingStore.stop();
     }
   }
 
-  public async remove(fazendaId: string): Promise<void> {
+  public async remove(fazendaId: string): Promise<boolean> {
     loadingStore.wait();
 
     try {
@@ -81,20 +102,56 @@ class GrupoLocaisService {
         }
 
         toastTool.warning(message);
-        return;
+
+        return false;
       }
 
       toastTool.success(SuccessMessages.GrupoLocais.REMOVE);
+
+      return true;
     } catch (error: unknown) {
       console.error(error);
 
       toastTool.error(ErrorMessages.GrupoLocais.REMOVE);
+
+      return false;
     } finally {
       loadingStore.stop();
     }
   }
 
-  public async toggleStatus(fazendaId: string): Promise<void> {
+  public async update(grupoLocaisData: UpdateGrupoLocais.Request): Promise<boolean> {
+    loadingStore.wait();
+
+    try {
+      const response: UpdateGrupoLocais.Response = await api.put("/GrupoLocais", grupoLocaisData);
+      const message = response.data.mensagem;
+
+      if (!response.data.isOk) {
+        if (!message) {
+          throw new Error();
+        }
+
+        toastTool.warning(message);
+
+        return false;
+      }
+
+      toastTool.success(SuccessMessages.GrupoLocais.UPDATE);
+
+      return true;
+    } catch (error: unknown) {
+      console.error(error);
+
+      toastTool.error(ErrorMessages.GrupoLocais.UPDATE);
+
+      return false;
+    } finally {
+      loadingStore.stop();
+    }
+  }
+
+  public async toggleStatus(fazendaId: string): Promise<boolean> {
     loadingStore.wait();
 
     try {
@@ -105,10 +162,14 @@ class GrupoLocaisService {
       if (!response.data) throw new Error();
 
       toastTool.success(SuccessMessages.GrupoLocais.TOGGLE_STATUS);
+
+      return true;
     } catch (error: unknown) {
       console.error(error);
 
       toastTool.error(ErrorMessages.GrupoLocais.TOGGLE_STATUS);
+
+      return false;
     } finally {
       loadingStore.stop();
     }
