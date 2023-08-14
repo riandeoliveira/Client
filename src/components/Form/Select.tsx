@@ -21,6 +21,7 @@ export const Select = ({
     <Autocomplete
       disableClearable={disableClearable}
       fullWidth
+      noOptionsText="Sem opções"
       getOptionLabel={(option): string => option.label}
       onChange={onSelect}
       options={options}

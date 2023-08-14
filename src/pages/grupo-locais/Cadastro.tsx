@@ -1,6 +1,5 @@
 import { ArrowBack as ArrowBackIcon, Send as SendIcon } from "@mui/icons-material";
 import { Button, Paper } from "@mui/material";
-import { Footer } from "components/Footer";
 import { Form } from "components/Form";
 import { Header } from "components/Header";
 import { useFormik } from "formik";
@@ -28,7 +27,7 @@ export const Cadastro = (): JSX.Element => {
       <main className={styles.main}>
         <form className={styles.form} onSubmit={formik.handleSubmit}>
           <h1 className={styles.title}>Cadastro de Fazendas</h1>
-          <Paper elevation={4} className={styles.paper}>
+          <Paper className={styles.paper}>
             <div className={styles.input_box}>
               <Form.TextField label="Nome*:" name="nome" form={formik} />
               <Form.NumberField
@@ -56,7 +55,6 @@ export const Cadastro = (): JSX.Element => {
           </div>
         </form>
       </main>
-      <Footer />
     </>
   );
 };

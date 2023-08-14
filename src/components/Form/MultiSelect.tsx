@@ -24,15 +24,15 @@ export const MultiSelect = ({
       disableClearable={disableClearable}
       disableCloseOnSelect
       size="small"
-      isOptionEqualToValue={(option, value) => option.value === value.value}
+      noOptionsText="Sem opções"
+      isOptionEqualToValue={(option, value): boolean => option.value === value.value}
       limitTags={2}
       options={options}
       value={value || undefined}
       getOptionLabel={(option): string => option.label}
       renderOption={(props, option, { selected }): JSX.Element => (
-        <li {...props}>
+        <li {...props} style={{ padding: "4px 12px" }}>
           <Checkbox checked={selected} />
-
           {option.label}
         </li>
       )}

@@ -1,3 +1,4 @@
+import { Paper } from "@mui/material";
 import { Form } from "components/Form";
 import { useFazenda } from "hooks/useFazenda";
 import { useGrupoSafra } from "hooks/useGrupoSafra";
@@ -22,46 +23,48 @@ export const Header = observer((): JSX.Element => {
   }, []);
 
   return (
-    <header className={styles.header}>
-      <img
-        src="/sgagri-logo.png"
-        alt="Logo do SGAgri"
-        width={168}
-        height={56}
-        className={styles.logo}
-      />
-      <div className={styles.header_box}>
-        <Form.Select
-          label="Clientes"
-          value={localStorageStore.fazenda}
-          disableClearable
-          onSelect={(_, value) => {
-            localStorageStore.setFazenda(value);
-          }}
-          options={fazendaStore.listing.map((fazenda) => ({
-            label: fazenda.nomeRazao,
-            value: fazenda.id,
-          }))}
+    <Paper>
+      <header className={styles.header}>
+        <img
+          src="/sgagri-logo.png"
+          alt="Logo do SGAgri"
+          width={168}
+          height={56}
+          className={styles.logo}
         />
-        <Form.MultiSelect
-          label="Safras"
-          value={localStorageStore.grupoSafras}
-          disableClearable
-          onSelect={(_, values): void => {
-            localStorageStore.setGrupoSafra(values);
-          }}
-          options={grupoSafraStore.listing}
-        />
-        <Form.MultiSelect
-          label="Atividades"
-          value={localStorageStore.safras}
-          disableClearable
-          onSelect={(_, values): void => {
-            localStorageStore.setSafras(values);
-          }}
-          options={safraStore.listing}
-        />
-      </div>
-    </header>
+        <div className={styles.header_box}>
+          <Form.Select
+            label="Clientes"
+            value={localStorageStore.fazenda}
+            disableClearable
+            onSelect={(_, value) => {
+              localStorageStore.setFazenda(value);
+            }}
+            options={fazendaStore.listing.map((fazenda) => ({
+              label: fazenda.nomeRazao,
+              value: fazenda.id,
+            }))}
+          />
+          <Form.MultiSelect
+            label="Safras"
+            value={localStorageStore.grupoSafras}
+            disableClearable
+            onSelect={(_, values): void => {
+              localStorageStore.setGrupoSafra(values);
+            }}
+            options={grupoSafraStore.listing}
+          />
+          <Form.MultiSelect
+            label="Atividades"
+            value={localStorageStore.safras}
+            disableClearable
+            onSelect={(_, values): void => {
+              localStorageStore.setSafras(values);
+            }}
+            options={safraStore.listing}
+          />
+        </div>
+      </header>
+    </Paper>
   );
 });

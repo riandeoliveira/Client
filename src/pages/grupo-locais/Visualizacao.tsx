@@ -1,6 +1,5 @@
 import { ArrowBack as ArrowBackIcon } from "@mui/icons-material";
 import { Button, Paper, TextField } from "@mui/material";
-import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 import { useGrupoLocais } from "hooks/useGrupoLocais";
 import { observer } from "mobx-react-lite";
@@ -23,7 +22,7 @@ export const Visualizacao = observer((): JSX.Element => {
       <main className={styles.main}>
         <form className={styles.form}>
           <h1 className={styles.title}>Visualização de Fazendas</h1>
-          <Paper elevation={4} className={styles.paper}>
+          <Paper className={styles.paper}>
             <div className={styles.input_box}>
               <TextField
                 type="text"
@@ -66,7 +65,6 @@ export const Visualizacao = observer((): JSX.Element => {
           </div>
         </form>
       </main>
-      <Footer />
     </>
   );
 });

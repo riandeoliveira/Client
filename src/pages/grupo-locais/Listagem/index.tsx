@@ -6,7 +6,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 import { Table } from "components/Table";
 import { useGrupoLocais } from "hooks/useGrupoLocais";
@@ -85,7 +84,6 @@ export const Listagem = observer((): JSX.Element => {
           </TableContainer>
         </div>
       </main>
-      <Footer />
       <Dialog
         open={modalStore.toggleGrupoLocaisStatus.isOpen}
         onClose={() => modalStore.close("toggleGrupoLocaisStatus")}
