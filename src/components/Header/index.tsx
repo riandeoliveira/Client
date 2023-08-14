@@ -1,37 +1,24 @@
-import { Autocomplete, Checkbox, TextField } from "@mui/material";
-import { useGrupoLocais } from "hooks/useGrupoLocais";
-import { useEffect, useState } from "react";
-import type { AtividadeResponse } from "services/atividade-service";
-import type { FetchAllResponse } from "services/cliente-service";
-import { ClienteService } from "services/cliente-service";
-import { SafraService, type FetchByFazendaIdResponse } from "services/safra-service";
-import { useMenuOptionsStore } from "store/menu-options.store";
+import { Form } from "components/Form";
+import { useFazenda } from "hooks/useFazenda";
+import { useGrupoSafra } from "hooks/useGrupoSafra";
+import { useSafra } from "hooks/useSafra";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import { fazendaStore } from "store/fazenda.store";
+import { grupoSafraStore } from "store/grupo-safra.store";
+import { localStorageStore } from "store/local-storage.store";
+import { safraStore } from "store/safra.store";
 import styles from "./styles.module.scss";
 
-export const Header = (): JSX.Element => {
-  const menuOptionsStore = useMenuOptionsStore();
-  const { grupoLocaisCadastroForm, grupoLocaisEdicaoForm } = useGrupoLocais();
-
-  const [clientes, setClientes] = useState<FetchAllResponse[]>([]);
-  const [safras, setSafras] = useState<FetchByFazendaIdResponse[]>([]);
-  const [atividades, setAtividades] = useState<AtividadeResponse[] | null>([]);
+export const Header = observer((): JSX.Element => {
+  const { handleFetchAll } = useFazenda();
+  const { handleFetchAllByFazendaId } = useGrupoSafra();
+  const { handleFetchAllByGrupoSafraIds } = useSafra();
 
   useEffect(() => {
-    const sendRequest = async () => {
-      const clientesData = await ClienteService.fetchAll();
-      const safrasData = await SafraService.fetchByFazendaId(
-        "41559565-65a8-4170-aba2-ce724a2089be",
-      );
-      // const atividadesData = await AtividadeService.fetchBySafraId(
-      //   "cd4c267c-38d3-4c0e-b8a0-e1c7631e0f93",
-      // );
-
-      setClientes(clientesData);
-      setSafras(safrasData);
-      // setAtividades(atividadesData);
-    };
-
-    sendRequest();
+    handleFetchAll();
+    handleFetchAllByFazendaId("41559565-65a8-4170-aba2-ce724a2089be");
+    handleFetchAllByGrupoSafraIds(["b8896e7a-718a-4ff5-aa12-ed3dba3154a6"]);
   }, []);
 
   return (
@@ -44,56 +31,37 @@ export const Header = (): JSX.Element => {
         className={styles.logo}
       />
       <div className={styles.header_box}>
-        <Autocomplete
-          options={clientes.map((cliente) => ({ label: cliente.nomeRazao, value: cliente.id }))}
-          size="small"
-          value={menuOptionsStore.state.clientes}
-          getOptionLabel={(option) => option.label}
-          renderOption={(props, option): JSX.Element => <li {...props}>{option.label}</li>}
-          onChange={(_, values) => {
-            menuOptionsStore.action.setClientes(values);
+        <Form.Select
+          label="Clientes"
+          value={localStorageStore.fazenda}
+          disableClearable
+          onSelect={(_, value) => {
+            localStorageStore.setFazenda(value);
           }}
-          style={{ width: 500 }}
-          renderInput={(params) => <TextField {...params} label="Clientes" variant="standard" />}
+          options={fazendaStore.listing.map((fazenda) => ({
+            label: fazenda.nomeRazao,
+            value: fazenda.id,
+          }))}
         />
-        <Autocomplete
-          multiple
-          disableCloseOnSelect
-          size="small"
-          limitTags={2}
-          options={safras}
-          value={menuOptionsStore.state.safras || undefined}
-          getOptionLabel={(option) => option.label}
-          renderOption={(props, option, { selected }): JSX.Element => (
-            <li {...props}>
-              <Checkbox checked={selected} />
-
-              {option.label}
-            </li>
-          )}
-          onChange={(_, values) => {
-            menuOptionsStore.action.setSafras(values);
-          }}
-          style={{ width: 500 }}
-          renderInput={(params) => <TextField {...params} label="Safras" variant="standard" />}
-        />
-        {/* <Form.MultipleSelect
+        <Form.MultiSelect
           label="Safras"
-          options={safras}
-          value={menuOptionsStore.state.safras}
-          onSelect={(_, values) => {
-            menuOptionsStore.action.setSafras(values);
+          value={localStorageStore.grupoSafras}
+          disableClearable
+          onSelect={(_, values): void => {
+            localStorageStore.setGrupoSafra(values);
           }}
+          options={grupoSafraStore.listing}
         />
-        <Form.MultipleSelect
+        <Form.MultiSelect
           label="Atividades"
-          options={atividades}
-          value={menuOptionsStore.state.atividades}
-          onSelect={(_, values) => {
-            menuOptionsStore.action.setAtividades(values);
+          value={localStorageStore.safras}
+          disableClearable
+          onSelect={(_, values): void => {
+            localStorageStore.setSafras(values);
           }}
-        /> */}
+          options={safraStore.listing}
+        />
       </div>
     </header>
   );
-};
+});

@@ -25,6 +25,19 @@ export namespace CreateGrupoLocais {
   export interface Response extends AxiosResponse<BaseResponse> {}
 }
 
+export namespace FetchAllFazenda {
+  export interface Result {
+    atividadeAgricolaId: string | null;
+    ativo: boolean;
+    cpf_cnpj: string | null;
+    id: string;
+    nomeRazao: string;
+    urlPowerBI: string | null;
+  }
+
+  export interface Response extends AxiosResponse<BaseResponse<Result[]>> {}
+}
+
 export namespace FetchAllGrupoLocais {
   export interface Result {
     ativo: boolean;
@@ -37,7 +50,7 @@ export namespace FetchAllGrupoLocais {
   export interface Response extends AxiosResponse<BaseResponse<PaginationResponse<Result>>> {}
 }
 
-export namespace FetchGrupoLocalById {
+export namespace FetchGrupoLocaisById {
   export interface Result {
     ativo: boolean;
     dataAtualizacao: string | null;
@@ -52,6 +65,24 @@ export namespace FetchGrupoLocalById {
   }
 
   export interface Response extends AxiosResponse<BaseResponse<Result>> {}
+}
+
+export namespace FetchAllGrupoSafraByFazendaId {
+  export interface Result {
+    label: string;
+    value: string;
+  }
+
+  export interface Response extends AxiosResponse<Result[]> {}
+}
+
+export namespace FetchAllSafraByGrupoSafraIds {
+  export interface Result {
+    label: string;
+    value: string;
+  }
+
+  export interface Response extends AxiosResponse<BaseResponse<Result[]>> {}
 }
 
 export namespace RemoveGrupoLocais {

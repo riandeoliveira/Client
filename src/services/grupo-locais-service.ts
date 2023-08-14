@@ -6,7 +6,7 @@ import { toastTool } from "tools/toast-tool";
 import type {
   CreateGrupoLocais,
   FetchAllGrupoLocais,
-  FetchGrupoLocalById,
+  FetchGrupoLocaisById,
   RemoveGrupoLocais,
   ToggleGrupoLocaisStatus,
   UpdateGrupoLocais,
@@ -67,11 +67,11 @@ class GrupoLocaisService {
     }
   }
 
-  public async fetchById(fazendaId?: string): Promise<FetchGrupoLocalById.Result | null> {
+  public async fetchById(fazendaId?: string): Promise<FetchGrupoLocaisById.Result | null> {
     loadingStore.wait();
 
     try {
-      const response: FetchGrupoLocalById.Response = await api.get(`/GrupoLocais/${fazendaId}`);
+      const response: FetchGrupoLocaisById.Response = await api.get(`/GrupoLocais/${fazendaId}`);
 
       if (!response.data.result) {
         throw new Error();

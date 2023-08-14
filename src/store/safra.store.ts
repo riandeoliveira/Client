@@ -1,41 +1,24 @@
-import type { FetchByFazendaIdResponse } from "services/safra-service";
-import { SafraService } from "services/safra-service";
-import { LocalStorageTool } from "tools/local-storage-tool";
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
+import { action, makeAutoObservable, observable } from "mobx";
+import type { FetchAllSafraByGrupoSafraIds } from "types/api";
 
-type Store = {
-  state: {
-    menuOptions: FetchByFazendaIdResponse[] | null;
-  };
-  action: {
-    fetchByFazendaId(fazendaId: string): Promise<void>;
-  };
-};
+interface ISafra extends FetchAllSafraByGrupoSafraIds.Result {}
 
-/**
- * Armazena estados globais relacionados a **Safras**.
- */
-export const useSafraStore = create(
-  immer<Store>((set) => {
-    return {
-      state: {
-        menuOptions: LocalStorageTool.getItem("safras"),
-      },
+class SafraStore {
+  public listing: ISafra[];
 
-      action: {
-        async fetchByFazendaId(fazendaId: string): Promise<void> {
-          const data: FetchByFazendaIdResponse[] | null = await SafraService.fetchByFazendaId(
-            fazendaId,
-          );
+  public constructor() {
+    this.listing = [];
 
-          set({
-            state: {
-              menuOptions: data,
-            },
-          });
-        },
-      },
-    };
-  }),
-);
+    makeAutoObservable(this, {
+      listing: observable,
+
+      setListing: action,
+    });
+  }
+
+  public setListing(listing: ISafra[]): void {
+    this.listing = listing;
+  }
+}
+
+export const safraStore = new SafraStore();

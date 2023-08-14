@@ -1,9 +1,9 @@
 import type { AxiosResponse } from "axios";
 
-export type SelectOptionsType = {
+export interface ISelectOptions {
   label: string;
   value: string;
-};
+}
 
 export type StoreType<S, A> = {
   values: S;
