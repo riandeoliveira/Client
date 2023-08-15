@@ -38,13 +38,20 @@ export const Header = observer((): JSX.Element => {
   return (
     <Paper>
       <header className={styles.header}>
-        <img
-          src="/sgagri-logo.png"
-          alt="Logo do SGAgri"
-          width={168}
-          height={56}
-          className={styles.logo}
-        />
+        <a
+          href="http://167.172.203.231/"
+          target="_blank"
+          rel="noreferrer"
+          className={styles.logo_link}
+        >
+          <img
+            src="/sgagri-logo.png"
+            alt="Logo do SGAgri"
+            width={168}
+            height={56}
+            className={styles.logo}
+          />
+        </a>
         <div className={styles.header_box}>
           <Form.Select
             label="Clientes"
