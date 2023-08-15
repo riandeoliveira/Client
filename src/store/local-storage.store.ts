@@ -2,21 +2,25 @@ import { action, makeAutoObservable, observable } from "mobx";
 import type { ISelectOptions } from "types";
 
 class LocalStorageStore {
+  public accessToken: string | null;
   public fazenda: ISelectOptions | null;
   public grupoSafras: ISelectOptions[] | null;
   public safras: ISelectOptions[] | null;
 
   public constructor() {
+    this.accessToken = this.getItem("access_token");
     this.fazenda = this.getItem("fazenda");
     this.grupoSafras = this.getItem("grupo_safras");
     this.safras = this.getItem("safras");
 
     makeAutoObservable(this, {
+      accessToken: observable,
       fazenda: observable,
       grupoSafras: observable,
       safras: observable,
 
       getItem: action,
+      setAccessToken: action,
       setFazenda: action,
       setGrupoSafra: action,
       setSafras: action,
@@ -30,6 +34,10 @@ class LocalStorageStore {
     if (storageItem) return JSON.parse(storageItem);
 
     return null;
+  }
+
+  public setAccessToken(accessToken: string | null): void {
+    this.setItem("access_token", accessToken);
   }
 
   public setFazenda(fazenda: ISelectOptions | null): void {

@@ -1,4 +1,5 @@
 import { api } from "apis";
+import { filterStore } from "store/filter.store";
 import { loadingStore } from "store/loading.store";
 import { toastTool } from "tools/toast-tool";
 import { GrupoLocaisMessages } from "./messages";
@@ -47,12 +48,10 @@ class GrupoLocaisService {
     loadingStore.wait();
 
     try {
-      const response: FetchAllGrupoLocais.Response = await api.post("/GrupoLocais/BuscarTudo", {
-        fazendaId: "41559565-65a8-4170-aba2-ce724a2089be",
-        page: 1,
-        pageSize: 10,
-        filtro: "",
-      });
+      const response: FetchAllGrupoLocais.Response = await api.post(
+        "/GrupoLocais/BuscarTudo",
+        filterStore.getAll(),
+      );
 
       return response.data.result?.items ?? [];
     } catch (error: unknown) {

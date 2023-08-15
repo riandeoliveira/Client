@@ -31,8 +31,10 @@ export const Header = observer((): JSX.Element => {
 
   useEffect(() => {
     handleFetchAll();
-    handleFetchAllByFazendaId("41559565-65a8-4170-aba2-ce724a2089be");
-    handleFetchAllByGrupoSafraIds(["b8896e7a-718a-4ff5-aa12-ed3dba3154a6"]);
+    handleFetchAllByFazendaId(localStorageStore.fazenda?.value ?? "");
+    handleFetchAllByGrupoSafraIds(
+      localStorageStore.grupoSafras?.map((grupoSafra) => grupoSafra.value) ?? [],
+    );
   }, []);
 
   return (

@@ -5,6 +5,7 @@ import { Header } from "components/Header";
 import { useGrupoLocais } from "features/grupo-locais/hook";
 import { grupoLocaisSchema } from "features/grupo-locais/schema";
 import { useFormik } from "formik";
+import { localStorageStore } from "store/local-storage.store";
 import styles from "./styles.module.scss";
 
 export const Cadastro = (): JSX.Element => {
@@ -13,7 +14,7 @@ export const Cadastro = (): JSX.Element => {
   const formik = useFormik({
     initialValues: {
       descricao: "",
-      fazendaId: "41559565-65a8-4170-aba2-ce724a2089be",
+      fazendaId: localStorageStore.fazenda?.value || "",
       nome: "",
       tamanhoHa: null,
     },

@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import { Filter } from "components/Filter";
 import { Header } from "components/Header";
 import { Modal } from "components/Modal";
 import { GrupoLocaisListingTable } from "features/grupo-locais/components/GrupoLocaisListingTable";
@@ -9,7 +10,7 @@ import { modalStore } from "store/modal.store";
 import styles from "./styles.module.scss";
 
 export const Listagem = observer((): JSX.Element => {
-  const { handleRemove, handleToggleStatus } = useGrupoLocais();
+  const { handleRemove, handleToggleStatus, handleFetchAll } = useGrupoLocais();
 
   return (
     <>
@@ -22,6 +23,7 @@ export const Listagem = observer((): JSX.Element => {
               Nova Fazenda
             </Button>
           </div>
+          <Filter onFilter={handleFetchAll} />
           <GrupoLocaisListingTable />
         </div>
       </main>
@@ -34,21 +36,23 @@ export const Listagem = observer((): JSX.Element => {
           <p>Você tem certeza que deseja alterar o status desta fazenda?</p>
         </Modal.Content>
         <Modal.Actions
-          onCancel={() => modalStore.close("toggleGrupoLocaisStatus")}
-          onConfirm={() => handleToggleStatus(grupoLocaisStore.selectedGrupoLocais.id)}
+          onCancel={(): void => modalStore.close("toggleGrupoLocaisStatus")}
+          onConfirm={(): Promise<void> =>
+            handleToggleStatus(grupoLocaisStore.selectedGrupoLocais.id)
+          }
         />
       </Modal.Container>
       <Modal.Container
         open={modalStore.removeGrupoLocais.isOpen}
-        onClose={() => modalStore.close("removeGrupoLocais")}
+        onClose={(): void => modalStore.close("removeGrupoLocais")}
       >
         <Modal.Content>
           <h2>Excluir Fazenda</h2>
           <p>Você tem certeza que deseja excluir esta fazenda?</p>
         </Modal.Content>
         <Modal.Actions
-          onCancel={() => modalStore.close("removeGrupoLocais")}
-          onConfirm={() => handleRemove(grupoLocaisStore.selectedGrupoLocais.id)}
+          onCancel={(): void => modalStore.close("removeGrupoLocais")}
+          onConfirm={(): Promise<void> => handleRemove(grupoLocaisStore.selectedGrupoLocais.id)}
         />
       </Modal.Container>
     </>

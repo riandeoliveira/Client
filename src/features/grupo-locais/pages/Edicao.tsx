@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { localStorageStore } from "store/local-storage.store";
 import styles from "./styles.module.scss";
 
 export const Edicao = observer((): JSX.Element => {
@@ -18,7 +19,7 @@ export const Edicao = observer((): JSX.Element => {
   const formik = useFormik({
     initialValues: {
       descricao: grupoLocaisStore.current?.descricao ?? null,
-      fazendaId: "41559565-65a8-4170-aba2-ce724a2089be",
+      fazendaId: localStorageStore.fazenda?.value ?? "",
       id: id ?? "",
       nome: grupoLocaisStore.current?.nome ?? "",
       tamanhoHa: grupoLocaisStore.current?.tamanhoHa ?? null,
