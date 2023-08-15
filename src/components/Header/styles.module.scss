@@ -1,10 +1,15 @@
 @use "../../styles" as *;
 
 .header {
+  align-items: center;
   display: flex;
   gap: 12px;
   height: 80px;
   padding: 12px;
+
+  @include media-query($tablet-l) {
+    justify-content: space-between;
+  }
 }
 
 .logo {
@@ -15,4 +20,26 @@
   display: flex;
   gap: 24px;
   width: 800px;
+
+  @include media-query($tablet-l) {
+    display: none;
+  }
+}
+
+.header_mobile_box {
+  display: none;
+
+  @include media-query($tablet-l) {
+    display: block;
+  }
+}
+
+.menu ul {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.item {
+  width: 250px;
 }

@@ -13,6 +13,7 @@ import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { modalStore } from "store/modal.store";
+import { v4 as uuidv4 } from "uuid";
 
 export const GrupoLocaisListingTable = observer((): JSX.Element => {
   const navigate = useNavigate();
@@ -35,36 +36,32 @@ export const GrupoLocaisListingTable = observer((): JSX.Element => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {grupoLocaisStore.listing.map((grupoLocais) => {
-            return (
-              <>
-                <TableRow>
-                  <TableCell>{grupoLocais.nome}</TableCell>
-                  <TableCell align="left">{grupoLocais.descricao}</TableCell>
-                  <TableCell align="center">{grupoLocais.tamanhoHa}</TableCell>
-                  <TableCell align="right">
-                    {grupoLocais.ativo ? (
-                      <CheckCircleIcon color="success" />
-                    ) : (
-                      <CancelIcon color="error" />
-                    )}
-                  </TableCell>
-                  <Table.Actions
-                    onVisualize={() => navigate(`/grupo-locais/visualizacao/${grupoLocais.id}`)}
-                    onEdit={() => navigate(`/grupo-locais/edicao/${grupoLocais.id}`)}
-                    onToggle={() => {
-                      modalStore.open("toggleGrupoLocaisStatus");
-                      grupoLocaisStore.setSelectedGrupoLocais(grupoLocais);
-                    }}
-                    onDelete={() => {
-                      modalStore.open("removeGrupoLocais");
-                      grupoLocaisStore.setSelectedGrupoLocais(grupoLocais);
-                    }}
-                  />
-                </TableRow>
-              </>
-            );
-          })}
+          {grupoLocaisStore.listing.map((grupoLocais) => (
+            <TableRow key={uuidv4()}>
+              <TableCell>{grupoLocais.nome}</TableCell>
+              <TableCell align="left">{grupoLocais.descricao}</TableCell>
+              <TableCell align="center">{grupoLocais.tamanhoHa}</TableCell>
+              <TableCell align="right">
+                {grupoLocais.ativo ? (
+                  <CheckCircleIcon color="success" />
+                ) : (
+                  <CancelIcon color="error" />
+                )}
+              </TableCell>
+              <Table.Actions
+                onVisualize={() => navigate(`/grupo-locais/visualizacao/${grupoLocais.id}`)}
+                onEdit={() => navigate(`/grupo-locais/edicao/${grupoLocais.id}`)}
+                onToggle={() => {
+                  modalStore.open("toggleGrupoLocaisStatus");
+                  grupoLocaisStore.setSelectedGrupoLocais(grupoLocais);
+                }}
+                onDelete={() => {
+                  modalStore.open("removeGrupoLocais");
+                  grupoLocaisStore.setSelectedGrupoLocais(grupoLocais);
+                }}
+              />
+            </TableRow>
+          ))}
         </TableBody>
       </MaterialTable>
     </TableContainer>

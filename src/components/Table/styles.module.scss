@@ -1,0 +1,19 @@
+@use "../../styles" as *;
+
+.menu {
+  @include media-query($tablet-l) {
+    display: none;
+  }
+}
+
+.mobile_menu {
+  display: none;
+
+  @include media-query($tablet-l) {
+    display: block;
+  }
+}
+
+.item {
+  gap: 12px;
+}

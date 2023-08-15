@@ -11,10 +11,15 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 1200px;
 }
 
 .title {
   color: $green;
+
+  @include media-query($tablet-s) {
+    font-size: 24px;
+  }
 }
 
 .paper {
@@ -22,7 +27,6 @@
   flex-direction: column;
   gap: 32px;
   padding: 32px;
-  width: 1200px;
 }
 
 .input {
@@ -33,6 +37,11 @@
   display: flex;
   gap: 64px;
   justify-content: space-between;
+
+  @include media-query($tablet-s) {
+    flex-direction: column;
+    gap: 32px;
+  }
 }
 
 .button_box {
