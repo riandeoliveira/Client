@@ -1,5 +1,6 @@
 import { makeObservable, observable } from "mobx";
-import type { ModalType } from "types/modal";
+
+export type ModalType = "removeGrupoLocais" | "toggleGrupoLocaisStatus";
 
 class ModalStore {
   public removeGrupoLocais: { isOpen: boolean };

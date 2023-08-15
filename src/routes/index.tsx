@@ -1,4 +1,4 @@
-import { GrupoLocais } from "pages/grupo-locais";
+import { GrupoLocais } from "features/grupo-locais/pages";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
