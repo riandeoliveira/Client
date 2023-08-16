@@ -3,6 +3,7 @@ import { IconButton, Menu, MenuItem, Paper } from "@mui/material";
 import { Form } from "components/Form";
 import { useFazenda } from "features/fazenda/hook";
 import { fazendaStore } from "features/fazenda/store";
+import { grupoLocaisStore } from "features/grupo-locais/store";
 import { useGrupoSafra } from "features/grupo-safra/hook";
 import { grupoSafraStore } from "features/grupo-safra/store";
 import { useSafra } from "features/safra/hook";
@@ -37,6 +38,10 @@ export const Header = observer((): JSX.Element => {
     );
   }, []);
 
+  console.clear();
+  console.log(JSON.stringify(grupoLocaisStore.listing, null, 2));
+  console.log(JSON.stringify(localStorageStore.grupoSafras, null, 2));
+
   return (
     <Paper>
       <header className={styles.header}>
@@ -61,6 +66,8 @@ export const Header = observer((): JSX.Element => {
             disableClearable
             onSelect={(_, value) => {
               localStorageStore.setFazenda(value);
+              localStorageStore.setGrupoSafra([]);
+              localStorageStore.setSafras([]);
             }}
             options={fazendaStore.listing.map((fazenda) => ({
               label: fazenda.nomeRazao,
@@ -73,6 +80,12 @@ export const Header = observer((): JSX.Element => {
             disableClearable
             onSelect={(_, values): void => {
               localStorageStore.setGrupoSafra(values);
+              localStorageStore.setSafras([]);
+            }}
+            onLeave={(): void => {
+              handleFetchAllByGrupoSafraIds(
+                localStorageStore.grupoSafras?.map((grupoSafra) => grupoSafra.value) ?? [],
+              );
             }}
             options={grupoSafraStore.listing}
           />
